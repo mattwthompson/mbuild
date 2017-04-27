@@ -41,6 +41,10 @@ docs/_build
 .idea
 .idea/*
 
+# Rope
+.ropeproject
+.ropeproject/*
+
 # Vagrant
 .vagrant
 Vagrantfile
