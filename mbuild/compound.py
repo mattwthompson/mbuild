@@ -32,11 +32,13 @@ from mbuild.coordinate_transform import _translate, _rotate
 
 
 def load(filename, relative_to_module=None, compound=None, coords_only=False,
-         rigid=False, **kwargs):
+         rigid=False, use_parmed=False, **kwargs):
     """Load a file into an mbuild compound.
 
-    Files are read using the MDTraj package. Please refer to http://mdtraj.org/
-    1.8.0/load_functions.html for supported formats.
+    Files are read using the MDTraj package unless the `use_parmed` argument is
+    specified as True. Please refer to http://mdtraj.org/1.8.0/load_functions.html
+    for formats supported by MDTraj and https://parmed.github.io/ParmEd/html/
+    readwrite.html for formats supported by ParmEd.
 
     Parameters
     ----------
@@ -53,6 +55,8 @@ def load(filename, relative_to_module=None, compound=None, coords_only=False,
         Only load the coordinates into an existing compoint.
     rigid : bool, optional, default=False
         Treat the compound as a rigid body
+    use_parmed : bool, optional, default=False
+        Use readers from ParmEd instead of MDTraj.
     **kwargs : keyword arguments
         Key word arguments passed to mdTraj for loading.
 
@@ -72,8 +76,13 @@ def load(filename, relative_to_module=None, compound=None, coords_only=False,
     if compound is None:
         compound = Compound()
 
-    traj = md.load(filename, **kwargs)
-    compound.from_trajectory(traj, frame=-1, coords_only=coords_only)
+    if use_parmed:
+        structure = pmd.load_file(filename, structure=True)
+        compound.from_parmed(structure)
+    else:
+        traj = md.load(filename, **kwargs)
+        compound.from_trajectory(traj, frame=-1, coords_only=coords_only)
+
     if rigid:
         compound.label_rigid_bodies()
     return compound
@@ -1621,7 +1630,9 @@ class Compound(object):
             atoms_particles = zip(structure.atoms,
                                   self._particles(include_ports=False))
             for parmed_atom, particle in atoms_particles:
-                particle.pos = structure.coordinates[parmed_atom.idx]
+                particle.pos = np.array([parmed_atom.xx,
+                                         parmed_atom.xy,
+                                         parmed_atom.xz])
             return
 
         atom_mapping = dict()
@@ -1638,10 +1649,10 @@ class Compound(object):
                 chain_compound = self
             for residue in residues:
                 for atom in residue.atoms:
-                    new_atom = Particle(name=str(atom.name), pos=structure.coordinates[atom.idx])
+                    pos = np.array([atom.xx, atom.xy, atom.xz])
+                    new_atom = Particle(name=str(atom.name), pos=pos)
                     chain_compound.add(new_atom, label='{0}[$]'.format(atom.name))
                     atom_mapping[atom] = new_atom
-                    print('Added', atom, residue)
 
         for bond in structure.bonds:
             atom1 = atom_mapping[bond.atom1]
