@@ -403,7 +403,7 @@ class Lattice(object):
         basis_dict. The corresponding Compound will be the full lattice
         returned to the user.
 
-        If no dictionary is passed to the user, Dummy Compounds will be used.
+        If no dictionary is passed to the user, An error will occur
 
         Parameters
         ----------
