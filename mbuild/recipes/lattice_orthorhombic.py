@@ -1,4 +1,4 @@
-__all__ = ['HEX_3D']
+__all__ = ['ORTHO_3D_P', 'ORTHO_3D_BASE', 'ORTHO_3D_BODY', 'ORTHO_3D_FACE']
 
 import numpy as np
 from mbuild.lattice import Lattice
@@ -6,12 +6,10 @@ from mbuild.recipes.lattice_cubic import compound_dict_expansion
 
 
 def spacing_error(lattice_spacings):
-    """Check that the inputted lattice spacings are a list of two.
+    """Check that the inputted lattice spacings are a list of three.
 
-    spacing_error will determine if the user inputted a list of 2 values
-    that can be converted to floats. These values represent the a and c
-    lattice edges. In a hexagonal cell, a and b are equivalent, while c is
-    not.
+    spacing_error will determine if the user inputted a list of 3 values
+    that can be converted to floats. In the 
 
     Parameters:
     -----------

@@ -43,7 +43,7 @@ def expand_spacings_3d_cubic(lattice_spacings):
     return [lattice_spacings for x in range(3)]
 
 
-def compound_dict_expansion_cubic(basis_atoms, compound_dict, num_basis_atoms):
+def compound_dict_expansion(basis_atoms, compound_dict, num_basis_atoms):
     """If user only passes in one basis atom, all basis atoms are same type.
 
     compound_dict_expansion allows the user to either fully define their
@@ -126,8 +126,8 @@ class SC(Lattice):
                          )
 
     def populate(self, compound_dict=None, x=1, y=1, z=1):
-        compound_dict = compound_dict_expansion_cubic(self.basis_atoms,
-                                                      compound_dict, 1)
+        compound_dict = compound_dict_expansion(self.basis_atoms,
+                                                compound_dict, 1)
         return super().populate(compound_dict=compound_dict,
                                 x=x,
                                 y=y,
@@ -175,8 +175,8 @@ class BCC(Lattice):
                          lattice_vectors=self.lattice_vectors)
 
     def populate(self, compound_dict=None, x=1, y=1, z=1):
-        compound_dict = compound_dict_expansion_cubic(self.basis_atoms,
-                                                      compound_dict, 2)
+        compound_dict = compound_dict_expansion(self.basis_atoms,
+                                                compound_dict, 2)
         return super().populate(compound_dict=compound_dict,
                                 x=x,
                                 y=y,
@@ -226,8 +226,8 @@ class FCC(Lattice):
                          lattice_vectors=self.lattice_vectors)
 
     def populate(self, compound_dict=None, x=1, y=1, z=1):
-        compound_dict = compound_dict_expansion_cubic(self.basis_atoms,
-                                                      compound_dict, 4)
+        compound_dict = compound_dict_expansion(self.basis_atoms,
+                                                compound_dict, 4)
         return super().populate(compound_dict=compound_dict,
                                 x=x,
                                 y=y,
