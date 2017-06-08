@@ -1,4 +1,4 @@
-__all__ = ['SC', 'BCC', 'FCC']
+__all__ = ['Sc', 'Bcc', 'Fcc']
 
 from warnings import warn
 import numpy as np
@@ -84,7 +84,7 @@ def compound_dict_expansion(basis_atoms, compound_dict, num_basis_atoms):
     return compound_dict
 
 
-class SC(Lattice):
+class Sc(Lattice):
     """Simple cubic Bravais lattice system.
 
     Attributes
@@ -134,7 +134,7 @@ class SC(Lattice):
                                 z=z)
 
 
-class BCC(Lattice):
+class Bcc(Lattice):
     """Simple cubic Bravais lattice system.
 
     Attributes
@@ -147,7 +147,7 @@ class BCC(Lattice):
     lattice_spacings : float, shape=1, required, default=None
         Length of unit cell edges.
     basis_atoms : dictionary, shape={'id':[list of atom positions]},
-    default=bcc basis positions
+    default=Bcc basis positions
         Location of all basis compounds in unit cell.
     angles : list-like,  shape=(dimension,), optional, default=None
         Interplanar angles describing unit cell.
@@ -183,7 +183,7 @@ class BCC(Lattice):
                                 z=z)
 
 
-class FCC(Lattice):
+class Fcc(Lattice):
     """Simple cubic Bravais lattice system.
 
     Attributes
@@ -196,7 +196,7 @@ class FCC(Lattice):
     lattice_spacings : float, shape=1, required, default=None
         Length of unit cell edges.
     basis_atoms : dictionary, shape={'id':[list of atom positions]},
-    default=fcc basis positions
+    default=Fcc basis positions
         Location of all basis compounds in unit cell.
     angles : list-like,  shape=(dimension,), optional, default=None
         Interplanar angles describing unit cell.

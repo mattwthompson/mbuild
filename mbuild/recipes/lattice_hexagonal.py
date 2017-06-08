@@ -1,4 +1,4 @@
-__all__ = ['HEX_3D']
+__all__ = ['Hex3D']
 
 import numpy as np
 from mbuild.lattice import Lattice
@@ -51,7 +51,7 @@ def expand_spacings_3d_hex(lattice_spacings):
     return [a_edge, a_edge, c_edge]
 
 
-class HEX_3D(Lattice):
+class Hex3D(Lattice):
     """Hexagonal 3D lattice system.
 
     Attributes
