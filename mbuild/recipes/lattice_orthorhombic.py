@@ -33,9 +33,7 @@ class OrthoPrim(Lattice):
     basis_atoms = {'A': [[0, 0, 0]]}
 
     def __init__(self, lattice_spacings):
-        spacing_error(lattice_spacings=lattice_spacings)
-
-        super().__init__(lattice_spacings=expand_spacings_3d_hex(lattice_spacings),
+        super().__init__(lattice_spacings=lattice_spacings,
                          dimension=self.dimension,
                          basis_atoms=self.basis_atoms,
                          lattice_vectors=self.lattice_vectors)
