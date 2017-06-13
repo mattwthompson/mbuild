@@ -46,7 +46,7 @@ def input_error_monoclinic(lattice_spacings, angles):
     else:
         raise ValueError('Incorrect interplanar angle value for beta. '
                          'Beta cannot be equal to 90.')
-
+    return [90, angles, 90]
 class MonoPrim(Lattice):
     """Primitive monoclinic Bravais lattice system.
 
@@ -80,7 +80,7 @@ class MonoPrim(Lattice):
     basis_atoms = {'A': [[0, 0, 0]]}
 
     def __init__(self, lattice_spacings, angles):
-        input_error_monoclinic(lattice_spacings, angles)
+        lattice_spacings = input_error_monoclinic(lattice_spacings, angles)
 
         super().__init__(lattice_spacings=lattice_spacings,
                          dimension=self.dimension,
@@ -128,7 +128,7 @@ class MonoBase(Lattice):
                    'B': [[0.5, 0.5, 0]]}
 
     def __init__(self, lattice_spacings, angles):
-        input_error_monoclinic(lattice_spacings, angles)
+        lattice_spacings = input_error_monoclinic(lattice_spacings, angles)
 
         super().__init__(lattice_spacings=lattice_spacings,
                          dimension=self.dimension,
