@@ -1,6 +1,5 @@
 __all__ = ['Sc', 'Bcc', 'Fcc']
 
-from warnings import warn
 import numpy as np
 from mbuild.lattice import Lattice
 

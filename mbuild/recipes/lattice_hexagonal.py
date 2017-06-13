@@ -1,6 +1,5 @@
 __all__ = ['Hex3D']
 
-import numpy as np
 from mbuild.lattice import Lattice
 from mbuild.recipes.lattice_cubic import compound_dict_expansion
 
@@ -59,9 +58,9 @@ class Hex3D(Lattice):
     dimension : int, default=3
         Dimension of the system of interest.
     lattice_vectors : numpy array, shape=(dimension, dimension), optional
-        Vectors that define edges of the cubic system.
-    lattice_spacings : float, shape=1, required, default=None
-        Length of unit cell edge.
+        Vectors that define edges of the hexagonal system.
+    lattice_spacings : list-like, shape=2, required, default=None
+        Lengths of unit cell edges.
     basis_atoms : dictionary, shape={'id':[list of atom positions]},
     default=[0, 0, 0]
         Location of all basis compounds in unit cell.
