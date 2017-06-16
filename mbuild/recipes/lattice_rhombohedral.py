@@ -5,10 +5,10 @@ from mbuild.recipes.lattice_cubic import compound_dict_expansion
 
 
 def input_error_rhombohedral(lattice_spacings, angles):
-    """Check for input errors and incorrect monoclinic information.
+    """Check for input errors and incorrect rhombohedral information.
 
-    input_error_monoclinic ensures that the lattice spacings and angles
-    inputted by the user are correct for the monoclinic bravais lattice
+    input_error_rhombohedral ensures that the lattice spacings and angles
+    inputted by the user are correct for the rhombohedral bravais lattice
     definitions.
 
     Parameters:
