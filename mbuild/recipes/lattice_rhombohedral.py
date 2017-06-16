@@ -1,7 +1,8 @@
-__all__ = ['RhombohedralPrim', 'RhombohedralConventional']
+__all__ = ['RhombohedralPrim']
 
 from mbuild.lattice import Lattice
 from mbuild.recipes.lattice_cubic import compound_dict_expansion
+
 
 def input_error_rhombohedral(lattice_spacings, angles):
     """Check for input errors and incorrect monoclinic information.
@@ -12,27 +13,19 @@ def input_error_rhombohedral(lattice_spacings, angles):
 
     Parameters:
     -----------
-    lattice_spacings: list, length=3, float,
+    lattice_spacings: float, size=1, float,
         Edge lengths of the lattice unit cell.
-    angles: float
+    angles: float, size=1, float
+        Interplanar angles of the unit cell.
 
     """
-    if isinstance(lattice_spacings, list):
-        if len(lattice_spacings) == 3:
-            if lattice_spacings[0] != lattice_spacings[2]:
-                pass
-            else:
-                raise ValueError('Incorrect values for lattice spacings. '
-                                 'Bravais monoclinic lattices cannot have '
-                                 'a == c.')
-        else:
-            raise ValueError('Incorrect amount of lattice spacings, 3 '
-                             'expected, {} passed.'
-                             .format(len(lattice_spacings)))
-    else:
-        raise TypeError('lattice_spacings incorrect type, {} was provided, '
-                        'expected list.'.format(type(lattice_spacings)))
 
+    try:
+        float(lattice_spacings)
+    except ValueError:
+        raise ValueError('Cannot convert lattice_spacings to float, '
+                         'ensure that the spacing is a single value that '
+                         'represents the edge lengths of the unit cell.')
     try:
         float(angles)
     except ValueError:
@@ -43,11 +36,18 @@ def input_error_rhombohedral(lattice_spacings, angles):
     if angles != 90:
         pass
     else:
-        raise ValueError('Incorrect interplanar angle value for beta. '
-                         'Beta cannot be equal to 90.')
-    return [90, angles, 90]
+        raise ValueError('Incorrect interplanar angle value for angles. '
+                         'Angles != 90.')
 
-class Rhombohedral(Lattice):
+    lattice_spacings = float(lattice_spacings)
+    angles = float(angles)
+    return_angles = [angles for x in range(3)]
+    return_spacings = [lattice_spacings for x in range(3)]
+
+    return  return_spacings, return_angles
+
+
+class RhombohedralPrim(Lattice):
     """Rhombohedral 3D lattice system.
 
     Attributes
@@ -73,16 +73,16 @@ class Rhombohedral(Lattice):
     """
 
     dimension = 3
-    angles = [90, 90, 120]
     basis_atoms = {'A': [[0, 0, 0]]}
 
-    def __init__(self, lattice_spacings):
-        spacing_error(lattice_spacings=lattice_spacings)
+    def __init__(self, lattice_spacings, angles):
+        lattice_spacings, angles = input_error_rhombohedral(lattice_spacings,
+                                                            angles)
 
-        super().__init__(lattice_spacings=expand_spacings_3d_hex(lattice_spacings),
+        super().__init__(lattice_spacings=lattice_spacings,
                          dimension=self.dimension,
-                         basis_atoms=self.basis_atoms,
-                         lattice_vectors=self.lattice_vectors)
+                         angles=angles,
+                         basis_atoms=self.basis_atoms)
 
     def populate(self, compound_dict=None, x=1, y=1, z=1):
         compound_dict = compound_dict_expansion(self.basis_atoms,

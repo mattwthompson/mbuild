@@ -84,7 +84,7 @@ class Hex3D(Lattice):
         super().__init__(lattice_spacings=expand_spacings_3d_hex(lattice_spacings),
                          dimension=self.dimension,
                          basis_atoms=self.basis_atoms,
-                         lattice_vectors=self.lattice_vectors)
+                         angles=self.angles)
 
     def populate(self, compound_dict=None, x=1, y=1, z=1):
         compound_dict = compound_dict_expansion(self.basis_atoms,

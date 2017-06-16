@@ -1,4 +1,4 @@
-__all__ = ['Sc', 'Bcc', 'Fcc']
+__all__ = ['Sc', 'Bcc', 'Fcc', 'Diamond']
 
 import numpy as np
 from mbuild.lattice import Lattice
@@ -134,7 +134,7 @@ class Sc(Lattice):
 
 
 class Bcc(Lattice):
-    """Simple cubic Bravais lattice system.
+    """Body Centered cubic Bravais lattice system.
 
     Attributes
     ----------
@@ -183,7 +183,7 @@ class Bcc(Lattice):
 
 
 class Fcc(Lattice):
-    """Simple cubic Bravais lattice system.
+    """Face Centered Bravais lattice system.
 
     Attributes
     ----------
@@ -230,6 +230,68 @@ class Fcc(Lattice):
     def populate(self, compound_dict=None, x=1, y=1, z=1):
         compound_dict = compound_dict_expansion(self.basis_atoms,
                                                 compound_dict, 4)
+        return super().populate(compound_dict=compound_dict,
+                                x=x,
+                                y=y,
+                                z=z)
+
+
+class Diamond(Lattice):
+    """Diamond lattice lattice system.
+
+    Attributes
+    ----------
+    dimension : int, default=3
+        Dimension of the system of interest.
+    lattice_vectors : numpy array, shape=(dimension, dimension), optional
+                      default=([1,0,0], [0,1,0], [0,0,1])
+        Vectors that define edges of the diamond system.
+    lattice_spacings : float, shape=1, required, default=None
+        Length of unit cell edges.
+    basis_atoms : dictionary, shape={'id':[list of atom positions]},
+    default=Diamond basis positions
+        Location of all basis compounds in unit cell.
+    angles : list-like,  shape=(dimension,), optional, default=None
+        Interplanar angles describing unit cell.
+
+    Simple Cubic Defaults
+    ---------------------
+    dimension : 3
+    lattice_vectors : [1, 0, 0
+                       0, 1, 0
+                       0, 0, 1]
+
+    basis_atoms = {'A': [[0, 0, 0]],
+                   'B': [[0, 0.5, 0.5]],
+                   'C': [[0.5, 0, 0.5]],
+                   'D': [[0.5, 0.5, 0]]
+                   'E': [[0.25, 0.25, 0.75]]
+                   'F': [[0.75, 0.25, 0.25]]
+                   'G': [[0.25, 0.75, 0.25]]
+                   'H': [[0.75, 0.75, 0.75]]}
+    """
+
+    dimension = 3
+    lattice_vectors = np.identity(dimension, dtype=float)
+    basis_atoms = {'A': [[0, 0, 0]],
+                   'B': [[0, 0.5, 0.5]],
+                   'C': [[0.5, 0, 0.5]],
+                   'D': [[0.5, 0.5, 0]],
+                   'E': [[0.25, 0.25, 0.75]],
+                   'F': [[0.75, 0.25, 0.25]],
+                   'G': [[0.25, 0.75, 0.25]],
+                   'H': [[0.75, 0.75, 0.75]]}
+
+    def __init__(self, lattice_spacings):
+        spacing_error_cubic(lattice_spacings=lattice_spacings)
+        super().__init__(lattice_spacings=expand_spacings_3d_cubic(lattice_spacings),
+                         dimension=self.dimension,
+                         basis_atoms=self.basis_atoms,
+                         lattice_vectors=self.lattice_vectors)
+
+    def populate(self, compound_dict=None, x=1, y=1, z=1):
+        compound_dict = compound_dict_expansion(self.basis_atoms,
+                                                compound_dict, 8)
         return super().populate(compound_dict=compound_dict,
                                 x=x,
                                 y=y,
