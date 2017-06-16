@@ -1,7 +1,7 @@
 __all__ = ['Polymer', 'TiledCompound', 'Monolayer', 'SilicaInterface',
            'Sc', 'Bcc', 'Fcc', 'Hex3D', 'OrthoPrim', 'OrthoBase', 'OrthoBody',
            'OrthoFace', 'RhombohedralPrim', 'Diamond', 'TetragonalPrim',
-           'TetragonalBase']
+           'TetragonalBody']
 
 
 from mbuild.recipes.polymer import Polymer
@@ -19,4 +19,4 @@ from mbuild.recipes.lattice_orthorhombic import OrthoBody
 from mbuild.recipes.lattice_orthorhombic import OrthoFace
 from mbuild.recipes.lattice_rhombohedral import RhombohedralPrim
 from mbuild.recipes.lattice_tetragonal import TetragonalPrim
-from mbuild.recipes.lattice_tetragonal import TetragonalBase
+from mbuild.recipes.lattice_tetragonal import TetragonalBody
