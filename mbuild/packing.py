@@ -78,7 +78,6 @@ def fill_box(compound, n_compounds=None, box=None, density=None, overlap=0.2, se
                 msg = "Determing n_compounds from system density currently supports systems with only one compound type"
                 raise ValueError(msg)
             else:
-                import pdb; pdb.set_trace()
                 compound_mass = np.sum([a.mass for a in compound[0].to_parmed().atoms])
                 n_compounds = [int(density/compound_mass*np.prod(box.lengths)*.60224)]
 
