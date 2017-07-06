@@ -35,7 +35,7 @@ end structure
 """
 
 
-def fill_box(compound, n_compounds, box, overlap=0.2, seed=12345):
+def fill_box(compound, n_compounds, box, density, overlap=0.2, seed=12345):
     """Fill a box with a compound using packmol.
 
     Parameters
@@ -44,7 +44,7 @@ def fill_box(compound, n_compounds, box, overlap=0.2, seed=12345):
     n_compounds : int or list of int
     box : mb.Box
     overlap : float
-
+    density : float
     Returns
     -------
     filled : mb.Compound
@@ -62,6 +62,22 @@ def fill_box(compound, n_compounds, box, overlap=0.2, seed=12345):
         compound = [compound]
     if not isinstance(n_compounds, (list, set)):
         n_compounds = [n_compounds]
+
+    if density:
+       if not box and n_compound:
+           total_mass = np.sum([n*np.sum([a.mass for a in c.to_parmed().atoms]) for c,n in zip(compound, n_compounds)])
+           L = (total_mass/density)**(1/3)*1.1841763 # Conversion from amu/(kg/m^3) to nm
+           box = mb.Box(L)
+       if not n_compounds and box:
+           if len(compound) > 1 or len(n_compound) > 1:
+               msg = "Determing n_compounds from system density only supported with a single compound"
+               raise ValueError(msg)
+#           elif not (box.lengths[0] == box.lengths[1] and box.lengths[0] == box.lengths[2]):
+#               msg = "Determing system density only supported with cubic boxes"
+#               raise ValueError(msg)
+           else:
+               compound_mass = np.sum([a.mass for a in compound.to_parmed().atoms])
+               n_compounds = [compound_mass/density/np.prod(box.lengths)]
 
     # In angstroms for packmol.
     box_mins = box.mins * 10
