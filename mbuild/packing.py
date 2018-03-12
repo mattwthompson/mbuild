@@ -396,6 +396,11 @@ def _packmol_error(out, err):
 
 def _run_packmol(input_text, filled_pdb, temp_file):
     proc = Popen(PACKMOL, stdin=PIPE, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+
+    input_file = open("pack.inp", "w")
+    input_file.write(input_text)
+    input_file.close()
+
     out, err = proc.communicate(input=input_text)
 
     if 'WITHOUT PERFECT PACKING' in out:
