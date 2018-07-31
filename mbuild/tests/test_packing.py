@@ -14,6 +14,10 @@ class TestPacking(BaseTest):
         assert filled.n_particles == 50 * 3
         assert filled.n_bonds == 50 * 2
 
+    def test_negative_coordinates(self, h2o):
+        filled = mb.fill_box(h2o, n_compounds=50, box=[-2, -2, -2, 2, 2, 2])
+        assert np.min(filled.xyz) < 0
+
     def test_fill_box_density_box(self, h2o):
         filled = mb.fill_box(h2o, n_compounds=1000, density=1000)
         assert [3.1042931 < period < 3.1042932 for period in filled.periodicity]
