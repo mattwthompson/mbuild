@@ -83,7 +83,7 @@ def load(filename_or_object, relative_to_module=None, compound=None, coords_only
         md.Trajectory:compound.from_trajectory,
     }
     try:
-        import pybel
+        from openbabel import pybel
         type_dict.update({pybel.Molecule:compound.from_pybel})
     except ImportError:
         pass
@@ -134,7 +134,8 @@ def load(filename_or_object, relative_to_module=None, compound=None, coords_only
         compound.from_parmed(structure, coords_only=coords_only)
 
     elif smiles:
-        pybel = import_('pybel')
+        import_('openbabel')
+        from openbabel import pybel
         # First we try treating filename_or_object as a SMILES string
         try:
             mymol = pybel.readstring("smi", filename_or_object)
@@ -2472,7 +2473,7 @@ class Compound(object):
         """
 
         openbabel = import_('openbabel')
-        pybel = import_('pybel')
+        from openbabel import pybel
 
         mol = openbabel.OBMol()
         particle_to_atom_index = {}
